@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" type="text/css" href="{% static "style.css" %}"/>
+  <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+</head>
+<body>
+<form action="/" method="post">
+  {% csrf_token %}
+  <textarea id="text" name="text" readonly autocomplete="off">{{ text }}</textarea>
+  <input id="text_update_button" class="hide" type="submit" value="确认"/>
+  <button id="text_edit_enable_button" type="button" onclick="textEditEnable()">编辑</button>
+  <button id="text_edit_disable_button" class="hide" type="button" onclick="textEditDisable()">取消</button>
+</form>
+
+上传文件<br/>
+<form enctype="multipart/form-data" action="{%  url 'upload' %}" method="POST">
+  {% csrf_token %}
+  <input type="file" name="file"/>
+  <br/>
+  <input type="submit" value="上传"/>
+</form>
+<div>
+  点击下载文件：<br/>
+  {% for file in file_list %}
+    <li>
+      <a href="{{ file.content.url }}">{{ file.content.name }}</a>
+      <form action="/delete/{{ file.content.name }}" method="post">
+        {% csrf_token %}
+        <button >delete</button>
+      </form>
+    </li>
+  {% endfor %}
+</div>
+<script>
+  "use strict"
+  var textarea = $("#text");
+
+  function textEditEnable() {
+    textarea.removeAttr("readonly");
+    $("#text_edit_enable_button").addClass("hide");
+    $("#text_edit_disable_button").removeClass("hide");
+    $("#text_update_button").removeClass("hide");
+  }
+
+  function textEditDisable() {
+    textarea.attr("readonly", "");
+    $("#text_edit_enable_button").removeClass("hide");
+    $("#text_edit_disable_button").addClass("hide");
+    $("#text_update_button").addClass("hide");
+  }
+</script>
+</body>
+</html>
