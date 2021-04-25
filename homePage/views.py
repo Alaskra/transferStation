@@ -4,6 +4,7 @@ from django.http import StreamingHttpResponse
 import os
 from transferStation.settings import MEDIA_ROOT
 
+
 def getData():
     context = {}
     text = MyText.objects.all()[0].text
@@ -25,11 +26,11 @@ def homePage(request):
 
 def upload(request):
     if request.method == 'POST':
-        f=request.FILES['file']
+        f = request.FILES['file']
         tmp = MyFile(content=f)
         ## 如果文件名中包含中文括号，save之后文件名会改变。所以save之后再修改name字段再save
         tmp.save()
-        tmp.name=tmp.content.name
+        tmp.name = tmp.content.name
         tmp.save()
         return redirect('/')
 
@@ -60,7 +61,7 @@ def download(request, fileName):
 
 def delete(request, fileName):
     if request.method == 'POST':
-        print("delete: "+fileName)
+        print("delete: " + fileName)
         obj = MyFile.objects.get(name=fileName)
         obj.delete()
         # 从数据库删除并不会自动删除实际文件，需要自己处理
