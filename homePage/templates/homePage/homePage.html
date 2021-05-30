@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
         integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="{% static "fileinput.min.css" %}"/>
   <link rel="stylesheet" type="text/css" href="{% static "style.css" %}"/>
   <title>transferStation</title>
 </head>
@@ -36,11 +35,18 @@
     <br/>
     <h2>文件列表</h2>
     <div class="containor">
-      <form class="form" enctype="multipart/form-data" action="{% url 'upload' %}" method="POST">
+      <form class="form" id="formUploadFile" enctype="multipart/form-data" action="{% url 'upload' %}" method="POST">
         {% csrf_token %}
-        <div class="file-loading">
-          <input id="file-input" name="file" type="file">
+        <div class="file">
+          <input id="fileToUpload" name="file" type="file" onchange="fileSelected()">选择文件
         </div>
+        <div id="fileName"></div>
+        <div id="fileSize"></div>
+        <div id="fileType"></div>
+        <div class="">
+          <input class="btn btn-primary" type="button" onclick="uploadFile()" value="上传"/>
+        </div>
+        <div id="progressNumber"></div>
       </form>
     </div>
     <br/>
@@ -66,7 +72,6 @@
 <script src="{% static "bootstrap.bundle.min.js" %}"></script>
 <script src="{% static "coco-message.min.js" %}"></script>
 <script src="{% static "clipboard.min.js" %}"></script>
-<script src="{% static "fileinput.min.js" %}"></script>
 <script src="{% static "homePage/script.js" %}"></script>
 </body>
 </html>
