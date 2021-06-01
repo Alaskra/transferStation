@@ -17,7 +17,7 @@
   <div class="containor">
     <form action="/" method="post">
       {% csrf_token %}
-      <textarea id="text" name="text" rows="5" cols="80" readonly autocomplete="off">{{ text }}</textarea>
+      <textarea id="text" name="text" rows="5" readonly autocomplete="off">{{ text }}</textarea>
       <br/>
       <button id="text_copy_button" class="btn btn-primary" type="button" data-clipboard-target="#text"
               data-clipboard-action="copy">复制

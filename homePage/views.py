@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from homePage.models import MyText, MyFile
-from django.http import StreamingHttpResponse
+from django.http import FileResponse
 import os
 from transferStation.settings import MEDIA_ROOT
 
@@ -36,26 +36,9 @@ def upload(request):
 
 
 def download(request, fileName):
-    def file_iterator(file_path, chunk_size=512):
-        """
-        文件生成器,防止文件过大，导致内存溢出
-        :param file_path: 文件绝对路径
-        :param chunk_size: 块大小
-        :return: 生成器
-        """
-        with open(file_path, mode='rb') as f:
-            while True:
-                c = f.read(chunk_size)
-                if c:
-                    yield c
-                else:
-                    break
-
     if request.method == 'GET':
         path = os.path.join(MEDIA_ROOT, fileName)
-        response = StreamingHttpResponse(file_iterator(path))
-        response['Content-Type'] = 'application/octet-stream'
-        response['Content-Disposition'] = 'attachment;filename="{}"'.format(fileName)
+        response = FileResponse(open(path, 'rb'), as_attachment=True, filename=fileName)
         return response
 
 

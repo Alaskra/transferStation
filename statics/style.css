@@ -22,3 +22,7 @@
     top: 0;
     opacity: 0;
 }
+
+textarea {
+    width: 80%;
+}
