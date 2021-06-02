@@ -4,36 +4,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="{% static "style.css" %}"/>
+  <link rel="stylesheet" type="text/css" href="{% static "bootstrap.min.css" %}"/>
+  <link rel="stylesheet" type="text/css" href="{% static "homePage/style.css" %}"/>
   <title>transferStation</title>
 </head>
 <body>
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+  <h5 class="my-0 mr-md-auto font-weight-normal">文件中转站</h5>
+  <nav class="my-2 my-md-0 mr-md-3">
+    <a class="p-2 text-dark" href="#">airportal</a>
+    {#    <a class="p-2 text-dark" href="#">Enterprise</a>#}
+    {#    <a class="p-2 text-dark" href="#">Support</a>#}
+    {#    <a class="p-2 text-dark" href="#">Pricing</a>#}
+  </nav>
+</div>
 <div class="container text-center">
-  <br/>
-  <h1 class="display-4">文件中转站</h1>
-  <br/>
-  <div class="containor">
-    <form action="/" method="post">
+  <div class="container">
+    <h2 class="m-t-4 p-4">文字复制</h2>
+    <form class="form-group" action="/" method="post">
       {% csrf_token %}
-      <textarea id="text" name="text" rows="5" readonly autocomplete="off">{{ text }}</textarea>
-      <br/>
+      <textarea class="form-control m-3 mx-auto w-75 bg-white" id="text" name="text" rows="5" readonly
+                autocomplete="off">{{ text }}</textarea>
       <button id="text_copy_button" class="btn btn-primary" type="button" data-clipboard-target="#text"
               data-clipboard-action="copy">复制
       </button>
       <button id="text_edit_enable_button" class="btn btn-primary" type="button" onclick="textEditEnable()">编辑</button>
-      <button id="text_update_button" class="hide btn btn-primary" type="submit">确认</button>
-      <button id="text_edit_disable_button" class="hide btn btn-secondary" type="button" onclick="textEditDisable()">取消
+      <button id="text_update_button" class="d-none btn btn-primary" type="submit">确认</button>
+      <button id="text_edit_disable_button" class="d-none btn btn-secondary" type="button" onclick="textEditDisable()">
+        取消
       </button>
     </form>
   </div>
 
+  <hr>
   <div class="containor">
-    <br/>
-    <br/>
-    <br/>
-    <h2>文件列表</h2>
+    <h2 class="m-t-4 p-4">文件列表</h2>
     <div class="containor">
       <form class="form" id="formUploadFile" enctype="multipart/form-data" action="{% url 'upload' %}" method="POST">
         {% csrf_token %}

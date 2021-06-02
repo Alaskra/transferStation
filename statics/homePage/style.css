@@ -1,6 +1,3 @@
-.hide {
-  display: none;
-}
 .file {
     position: relative;
     display: inline-block;
@@ -14,6 +11,7 @@
     text-indent: 0;
     line-height: 20px;
 }
+
 .file input {
     cursor: pointer;
     position: absolute;
@@ -21,8 +19,4 @@
     right: 0;
     top: 0;
     opacity: 0;
-}
-
-textarea {
-    width: 80%;
 }

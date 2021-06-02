@@ -1,20 +1,21 @@
 "use strict"
 var textarea = $("#text");
+var hide = "d-none";
 
 function textEditEnable() {
   textarea.removeAttr("readonly");
-  $("#text_edit_enable_button").addClass("hide");
-  $("#text_copy_button").addClass("hide");
-  $("#text_edit_disable_button").removeClass("hide");
-  $("#text_update_button").removeClass("hide");
+  $("#text_edit_enable_button").addClass(hide);
+  $("#text_copy_button").addClass(hide);
+  $("#text_edit_disable_button").removeClass(hide);
+  $("#text_update_button").removeClass(hide);
 }
 
 function textEditDisable() {
   textarea.attr("readonly", "");
-  $("#text_edit_enable_button").removeClass("hide");
-  $("#text_copy_button").removeClass("hide");
-  $("#text_edit_disable_button").addClass("hide");
-  $("#text_update_button").addClass("hide");
+  $("#text_edit_enable_button").removeClass(hide);
+  $("#text_copy_button").removeClass(hide);
+  $("#text_edit_disable_button").addClass(hide);
+  $("#text_update_button").addClass(hide);
 }
 
 var clipboard = new ClipboardJS('#text_copy_button');
@@ -24,11 +25,7 @@ clipboard.on('success', function (e) {
 clipboard.on('error', function (e) {
   cocoMessage.error(1000, "复制失败")
 })
-// $(document).ready(function () {
-//   $("#file-input").fileinput({
-//     showPreview: false,
-//   });
-// });
+
 function fileSelected() {
   var file = document.getElementById('fileToUpload').files[0];
   if (file) {
@@ -48,7 +45,7 @@ function uploadFile() {
   var fd = new FormData();
   var form = $("#formUploadFile")[0];
   fd.append("file", document.getElementById('fileToUpload').files[0]);
-  fd.append("csrfmiddlewaretoken",$("#formUploadFile input")[0].value)
+  fd.append("csrfmiddlewaretoken", $("#formUploadFile input")[0].value)
   var xhr = new XMLHttpRequest();
   xhr.upload.addEventListener("progress", uploadProgress, false);
   xhr.addEventListener("load", uploadComplete, false);
@@ -70,7 +67,7 @@ function uploadProgress(evt) {
 function uploadComplete(evt) {
   /* This event is raised when the server send back a response */
   // alert(evt.target.responseText);
-  location.href=evt.target.responseURL;
+  location.href = evt.target.responseURL;
 }
 
 function uploadFailed(evt) {
