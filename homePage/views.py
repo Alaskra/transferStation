@@ -5,16 +5,15 @@ import os
 from transferStation.settings import MEDIA_ROOT
 
 
-def getData():
-    context = {}
-    text = MyText.objects.all()[0].text
-    file_list = MyFile.objects.all()
-    context['text'] = text
-    context['file_list'] = file_list
-    return context
-
-
 def homePage(request):
+    def getData():
+        context = {}
+        text = MyText.objects.all()[0].text
+        file_list = MyFile.objects.all()
+        context['text'] = text
+        context['file_list'] = file_list
+        return context
+
     if request.method == 'GET':
         return render(request, 'homePage/homePage.html', getData())
     elif request.method == 'POST':
@@ -51,3 +50,7 @@ def delete(request, fileName):
         path = os.path.join(MEDIA_ROOT, fileName)
         os.remove(path)
         return redirect('/')
+
+def airportal(request):
+    if request.method == 'GET':
+        return render(request, 'homePage/airportal.html')
