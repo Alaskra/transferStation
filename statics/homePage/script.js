@@ -1,21 +1,20 @@
 "use strict"
 var textarea = $("#text");
-var hide = "d-none";
+var button_group1 = $("#text_edit_enable_button, #text_copy_button");
+var button_group2 = $("#text_edit_disable_button, #text_update_button");
 
+$(document).ready(function () {
+  button_group2.hide();
+})
 function textEditEnable() {
   textarea.removeAttr("readonly");
-  $("#text_edit_enable_button").addClass(hide);
-  $("#text_copy_button").addClass(hide);
-  $("#text_edit_disable_button").removeClass(hide);
-  $("#text_update_button").removeClass(hide);
+  button_group1.hide();
+  button_group2.show();
 }
 
 function textEditDisable() {
-  textarea.attr("readonly", "");
-  $("#text_edit_enable_button").removeClass(hide);
-  $("#text_copy_button").removeClass(hide);
-  $("#text_edit_disable_button").addClass(hide);
-  $("#text_update_button").addClass(hide);
+  button_group1.show();
+  button_group2.hide();
 }
 
 var clipboard = new ClipboardJS('#text_copy_button');
@@ -27,24 +26,23 @@ clipboard.on('error', function (e) {
 })
 
 function fileSelected() {
-  var file = document.getElementById('fileToUpload').files[0];
+  var file = $("#fileToUpload")[0].files[0];
   if (file) {
     var fileSize = 0;
     if (file.size > 1024 * 1024)
       fileSize = (Math.round(file.size * 100 / (1024 * 1024)) / 100).toString() + 'MB';
     else
       fileSize = (Math.round(file.size * 100 / 1024) / 100).toString() + 'KB';
-
-    document.getElementById('fileName').innerHTML = 'Name: ' + file.name;
-    document.getElementById('fileSize').innerHTML = 'Size: ' + fileSize;
-    document.getElementById('fileType').innerHTML = 'Type: ' + file.type;
+    $("#fileName").html('Name: ' + file.name);
+    $("#fileSize").html('Size: ' + fileSize);
+    $("#fileType").html('Type: ' + file.type);
   }
 }
 
 function uploadFile() {
   var fd = new FormData();
   var form = $("#formUploadFile")[0];
-  fd.append("file", document.getElementById('fileToUpload').files[0]);
+  fd.append("file", $('#fileToUpload')[0].files[0]);
   fd.append("csrfmiddlewaretoken", $("#formUploadFile input")[0].value)
   var xhr = new XMLHttpRequest();
   xhr.upload.addEventListener("progress", uploadProgress, false);
@@ -52,15 +50,16 @@ function uploadFile() {
   xhr.addEventListener("error", uploadFailed, false);
   xhr.addEventListener("abort", uploadCanceled, false);
   xhr.open("POST", form.action);
+  $("#progressNumber").removeClass(hide);
   xhr.send(fd);
 }
 
 function uploadProgress(evt) {
   if (evt.lengthComputable) {
     var percentComplete = Math.round(evt.loaded * 100 / evt.total);
-    document.getElementById('progressNumber').innerHTML = percentComplete.toString() + '%';
+    $('#progressNumber').val(percentComplete);
   } else {
-    document.getElementById('progressNumber').innerHTML = 'unable to compute';
+    $('#progressNumber').html('unable to compute');
   }
 }
 
