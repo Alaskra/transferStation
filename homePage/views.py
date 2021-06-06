@@ -1,8 +1,9 @@
+import os, random
 from django.shortcuts import render, redirect
-from homePage.models import MyText, MyFile
-from django.http import FileResponse
-import os
+from homePage.models import MyText, MyFile, MyAirportalFile
+from django.http import FileResponse, HttpResponse
 from transferStation.settings import MEDIA_ROOT
+from django.utils import timezone
 
 
 def homePage(request):
@@ -51,6 +52,51 @@ def delete(request, fileName):
         os.remove(path)
         return redirect('/')
 
+
 def airportal(request):
+    def getPickupCode():
+        while True:
+            code = ''
+            for i in range(6):
+                code += str(int(random.random() * 10))
+            if len(MyAirportalFile.objects.filter(pickupCode=code)) == 0:
+                return code
+
     if request.method == 'GET':
+        # 主页面
         return render(request, 'homePage/airportal.html')
+    if request.method == 'POST':
+        # 上传airportal
+        f = request.FILES['file']
+        tmp = MyAirportalFile(content=f)
+        tmp.createTime = timezone.now()
+        tmp.hours = timezone.timedelta(hours=int(request.POST['hours']))
+        tmp.downloads = request.POST['downloads']
+        tmp.pickupCode = getPickupCode()
+        tmp.save()
+        # 如果文件名中包含中文括号，save之后文件名会改变。所以save之后再修改name字段再save
+        tmp.name = tmp.content.name
+        tmp.save()
+        return HttpResponse('上传成功，取件码为：' + str(tmp.pickupCode))
+
+
+def airportalDownload(request):
+    if request.method == 'GET':
+        code = request.GET['code']
+        tmp = MyAirportalFile.objects.filter(pickupCode=code)
+        if len(tmp) == 0:
+            # 取件码不存在
+            return render(request, 'homePage/aFail.html')
+        else:
+            obj = tmp[0]
+            filePath = obj.name
+            path = os.path.join(MEDIA_ROOT, filePath)
+            _, fileName = os.path.split(filePath)
+            response = FileResponse(open(path, 'rb'), as_attachment=True, filename=fileName)
+            counts = int(obj.downloads)
+            if counts <= 0:
+                return render(request, 'homePage/aFail.html')
+            else:
+                obj.downloads = str(counts - 1);
+                obj.save()
+                return response

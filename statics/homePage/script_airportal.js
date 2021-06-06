@@ -1,27 +1,3 @@
-"use strict"
-var textarea = $("#text");
-var button_group1 = $("#text_edit_enable_button, #text_copy_button");
-var button_group2 = $("#text_edit_disable_button, #text_update_button");
-
-function textEditEnable() {
-  textarea.removeAttr("readonly");
-  button_group1.addClass("d-none");
-  button_group2.removeClass('d-none');
-}
-
-function textEditDisable() {
-  button_group1.removeClass('d-none');
-  button_group2.addClass('d-none');
-}
-
-var clipboard = new ClipboardJS('#text_copy_button');
-clipboard.on('success', function (e) {
-  cocoMessage.success(1000, "复制成功")
-})
-clipboard.on('error', function (e) {
-  cocoMessage.error(1000, "复制失败")
-})
-
 function fileSelected() {
   var file = $("#fileToUpload")[0].files[0];
   if (file) {
@@ -36,7 +12,7 @@ function fileSelected() {
   }
 }
 
-function uploadFile() {
+function uploadAirportalFile() {
   var form = $("#formUploadFile")[0];
   var fd = new FormData(form);
   var xhr = new XMLHttpRequest();
@@ -60,8 +36,7 @@ function uploadProgress(evt) {
 
 function uploadComplete(evt) {
   /* This event is raised when the server send back a response */
-  // alert(evt.target.responseText);
-  location.href = evt.target.responseURL;
+  alert(evt.target.responseText);
 }
 
 function uploadFailed(evt) {

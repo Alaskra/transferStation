@@ -32,8 +32,8 @@
       </button>
       <button id="text_edit_enable_button" class="btn btn-secondary" type="button" onclick="textEditEnable()">编辑
       </button>
-      <button id="text_update_button" class="btn btn-primary" type="submit">确认</button>
-      <button id="text_edit_disable_button" class="btn btn-secondary" type="reset" onclick="textEditDisable()">
+      <button id="text_update_button" class="d-none btn btn-primary" type="submit">确认</button>
+      <button id="text_edit_disable_button" class="d-none btn btn-secondary" type="reset" onclick="textEditDisable()">
         取消
       </button>
     </form>
@@ -60,7 +60,7 @@
         <li class="list-group-item ">
           <form class="d-flex justify-content-between" action="/delete/{{ file.content.name }}" method="post">
             {% csrf_token %}
-            <a class="align-self-center" href="{{ file.content.url }}">{{ file.content.name }}</a>
+            <a class="align-self-center overflow-auto m-2" href="{{ file.content.url }}">{{ file.content.name }}</a>
             <button class="btn btn-warning ">delete</button>
           </form>
         </li>

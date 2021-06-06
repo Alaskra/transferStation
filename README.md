@@ -1,13 +1,19 @@
 # web端文件中转站
 
-自己练手的web项目，使用django框架作为后端, bootstrap美化UI，jquery编写js。
+自己练手的web项目
+- 使用django框架作为后端
+- django-aspscheduler执行定时任务
+- bootstrap美化UI
+- jquery编写js
 
 ## 部署方法
 
 - 安装python3.9, 最好使用虚拟环境
-- 导入包：`pip install -r packages.txt`
+- 导入包：`pip install -r requirements.txt`
 - 创建数据库：`python manage.py migrate`
-- 运行：`python manage.py runserver 0.0.0.0:8080`
+- 后台运行定时任务(清理过期文件）：`python manage.py runapscheduler&`
+- 运行服务：`python manage.py runserver 0.0.0.0:8080`
+
 
 ## 项目特点
 

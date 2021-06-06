@@ -25,11 +25,12 @@
   resize: none;
 }
 
-textarea::-webkit-scrollbar {
+::-webkit-scrollbar {
   width: 6px;
-  background-color: rgb(182, 214, 226);
+  height: 6px;
+  background-color: skyblue;
 }
 
-textarea::-webkit-scrollbar-thumb {
-  background-color: skyblue;
+::-webkit-scrollbar-thumb {
+  background-color: #1E88C7;
 }
