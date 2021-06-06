@@ -31,4 +31,4 @@
 - [x] 直接传文本
 - [ ] 电脑截图后ctrl-v
 - [ ] 手机拍照上传
-- [ ] airportal的方式
+- [x] airportal的方式
