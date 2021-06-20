@@ -38,7 +38,12 @@
       </button>
     </form>
   </div>
-
+  <hr>
+  <h2 class="m-t-4 p-4">图片复制</h2>
+  <img src="{{ image_url }}">
+  <form id="img" action="/" method="post">
+    {% csrf_token %}
+  </form>
   <hr>
   <div class="containor">
     <h2 class="m-t-4 p-4">文件列表</h2>

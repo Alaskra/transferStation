@@ -1,6 +1,6 @@
 import os, random
 from django.shortcuts import render, redirect
-from homePage.models import MyText, MyFile, MyAirportalFile
+from homePage.models import MyText, MyFile, MyAirportalFile, MyImage
 from django.http import FileResponse, HttpResponse
 from transferStation.settings import MEDIA_ROOT
 from django.utils import timezone
@@ -10,17 +10,33 @@ def homePage(request):
     def getData():
         context = {}
         text = MyText.objects.all()[0].text
+        if len(MyImage.objects.all()) == 0:
+            image_url = ''
+        else:
+            image_url = MyImage.objects.all()[0].img.url
         file_list = MyFile.objects.all()
         context['text'] = text
         context['file_list'] = file_list
+        context['image_url'] = image_url
         return context
 
     if request.method == 'GET':
         return render(request, 'homePage/homePage.html', getData())
     elif request.method == 'POST':
-        obj = MyText.objects.get(id=1)
-        obj.text = request.POST['text']
-        obj.save()
+        if len(request.FILES) != 0:
+            if len(MyImage.objects.all()) == 0:
+                obj = MyImage(img=request.FILES['img'])
+                obj.save()
+            else:
+                obj = MyImage.objects.all()[0]
+                path = obj.img.file.name
+                os.remove(path)
+                obj.img = request.FILES['img']
+                obj.save()
+        else:
+            obj = MyText.objects.all()[0]
+            obj.text = request.POST['text']
+            obj.save()
         return redirect('/')
 
 

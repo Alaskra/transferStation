@@ -71,3 +71,25 @@ function uploadFailed(evt) {
 function uploadCanceled(evt) {
   alert("The upload has been canceled by the user or the browser dropped the connection.");
 }
+
+document.addEventListener('paste', function (event) {
+  var items = event.clipboardData && event.clipboardData.items;
+  var file = null;
+  if (items && items.length) {
+    // 检索剪切板items
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].type.indexOf('image') !== -1) {
+        file = items[i].getAsFile();
+        // 此时file就是剪切板中的图片文件
+        var form = $("#img")[0];
+        var fd = new FormData(form);
+        fd.append('asd', 1);
+        fd.append('img', file);
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", '/');
+        xhr.send(fd);
+        location.reload();
+      }
+    }
+  }
+});
