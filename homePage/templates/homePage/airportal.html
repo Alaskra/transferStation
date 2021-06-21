@@ -17,7 +17,7 @@
   </nav>
 </div>
 
-<div class="container">
+<div class="container text-center">
   <div>
     <h2>取件</h2>
     <form class="form-inline" method="get" action="airDownload">
@@ -29,10 +29,10 @@
   <hr class="m-5">
   <div class="">
     <h2>发件</h2>
-    <form class="" method="post" action="airportal" id="formUploadFile">
+    <form class="" method="post" action="airportal">
       {% csrf_token %}
       <div class="form-group row ">
-        <label class="col-sm-2 col-form-label" for="fileToUpload">donwloads</label>
+        <label class="col-sm-2 col-form-label" for="downloads">donwloads</label>
         <div class="col-sm-10">
           <input class="form-control " id="downloads" name="downloads" type="number" value="2">
         </div>
@@ -45,15 +45,15 @@
       </div>
       <div class="form-group">
         <div class="custom-file">
-          <input id="fileToUpload" name="file" type="file" class="custom-file-input" onchange="fileSelected()">
-          <label class="custom-file-label" for="customFile">Choose file</label>
+          <input id="fileToUpload" name="file" type="file" class="custom-file-input" onchange="fileSelected(this)">
+          <label class="custom-file-label" for="fileToUpload">Choose file</label>
         </div>
       </div>
-      <div id="fileName"></div>
-      <div id="fileSize"></div>
-      <div id="fileType"></div>
-      <progress id="progressNumber" class="d-none" value="0" max="100"></progress>
-      <input class="btn btn-primary my-2 d-block m-auto" type="button" onclick="uploadAirportalFile()" value="上传"/>
+      <div></div>
+      <div></div>
+      <div></div>
+      <p class="d-none"></p>
+      <input class="btn btn-primary my-2 d-block m-auto" type="button" onclick="uploadFile(this)" value="上传"/>
     </form>
   </div>
 </div>

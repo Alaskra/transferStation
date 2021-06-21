@@ -1,19 +1,22 @@
-function fileSelected() {
-  var file = $("#fileToUpload")[0].files[0];
+function fileSelected(e) {
+  var file = e.files[0];
   if (file) {
     var fileSize = 0;
     if (file.size > 1024 * 1024)
       fileSize = (Math.round(file.size * 100 / (1024 * 1024)) / 100).toString() + 'MB';
     else
       fileSize = (Math.round(file.size * 100 / 1024) / 100).toString() + 'KB';
-    $("#fileName").html('Name: ' + file.name);
-    $("#fileSize").html('Size: ' + fileSize);
-    $("#fileType").html('Type: ' + file.type);
+    var fileNameElement = e.parentElement.parentElement.nextElementSibling;
+    var fileSizeElement = fileNameElement.nextElementSibling;
+    var fileTypeElement = fileSizeElement.nextElementSibling;
+    fileNameElement.textContent = 'Name: ' + file.name;
+    fileSizeElement.textContent = 'Size: ' + fileSize;
+    fileTypeElement.textContent = 'Type: ' + file.type;
   }
 }
 
-function uploadAirportalFile() {
-  var form = $("#formUploadFile")[0];
+function uploadFile(e) {
+  var form = e.parentElement;
   var fd = new FormData(form);
   var xhr = new XMLHttpRequest();
   xhr.upload.addEventListener("progress", uploadProgress, false);
@@ -21,16 +24,16 @@ function uploadAirportalFile() {
   xhr.addEventListener("error", uploadFailed, false);
   xhr.addEventListener("abort", uploadCanceled, false);
   xhr.open("POST", form.action);
-  $("#progressNumber").removeClass('d-none');
+  e.previousElementSibling.className = "prog";
   xhr.send(fd);
 }
 
 function uploadProgress(evt) {
   if (evt.lengthComputable) {
-    var percentComplete = Math.round(evt.loaded * 100 / evt.total);
-    $('#progressNumber').val(percentComplete);
+    var percentComplete = String(Math.round(evt.loaded * 100 / evt.total));
+    $('.prog').text('正在上传：' + percentComplete + '%');
   } else {
-    $('#progressNumber').html('unable to compute');
+    $('.prog').html('unable to compute');
   }
 }
 

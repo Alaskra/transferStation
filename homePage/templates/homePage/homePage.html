@@ -40,38 +40,58 @@
   </div>
   <hr>
   <h2 class="m-t-4 p-4">图片复制</h2>
-  <img src="{{ image_url }}">
-  <form id="img" action="/" method="post">
+  <p>用于截屏或者手机拍照</p>
+  <form action="/" method="post" enctype="multipart/form-data">
     {% csrf_token %}
+    <div class="form-group">
+      <img class="w-50 img-fluid " src="{{ image_url }}">
+    </div>
+    <div class="form-group">
+      ctrl-v 粘贴屏幕截图
+    </div>
+    <div class="form-group">
+      或
+    </div>
+    <div class="form-group">
+      <div class="custom-file w-auto">
+        <input class="custom-file-input" id="cameraImage" name="img" type="file" accept="image/*" capture="camera"
+               onchange="fileSelected(this)">
+        <label class="custom-file-label" for="cameraImage"></label>
+      </div>
+    </div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <p class="d-none"></p>
+    <input class="btn btn-primary" type="button" onclick="uploadFile(this)" value="上传"/>
   </form>
   <hr>
-  <div class="containor">
-    <h2 class="m-t-4 p-4">文件列表</h2>
-    <div class="containor">
-      <form class="form" id="formUploadFile" enctype="multipart/form-data" action="{% url 'upload' %}" method="POST">
-        {% csrf_token %}
-        <div class="file">
-          <input id="fileToUpload" name="file" type="file" onchange="fileSelected()">选择文件
-        </div>
-        <div id="fileName"></div>
-        <div id="fileSize"></div>
-        <div id="fileType"></div>
-        <input class="btn btn-primary my-2 d-block m-auto" type="button" onclick="uploadFile()" value="上传"/>
-        <progress id="progressNumber" class="d-none" value="0" max="100"></progress>
-      </form>
+  <h2 class="m-t-4 p-4">文件列表</h2>
+  <form class="form" enctype="multipart/form-data" action="{% url 'upload' %}" method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+      <div class="custom-file w-50">
+        <input class="custom-file-input" name="file" type="file" onchange="fileSelected(this)">
+        <label class="custom-file-label"></label>
+      </div>
     </div>
-    <ul class="list-group text-left containor-fl font-weight-bold m-4">
-      {% for file in file_list %}
-        <li class="list-group-item ">
-          <form class="d-flex justify-content-between" action="/delete/{{ file.content.name }}" method="post">
-            {% csrf_token %}
-            <a class="align-self-center overflow-auto m-2" href="{{ file.content.url }}">{{ file.content.name }}</a>
-            <button class="btn btn-warning ">delete</button>
-          </form>
-        </li>
-      {% endfor %}
-    </ul>
-  </div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <p class="d-none"></p>
+    <input class="btn btn-primary my-2 d-block m-auto" type="button" onclick="uploadFile(this)" value="上传"/>
+  </form>
+  <ul class="list-group text-left containor-fl font-weight-bold m-4">
+    {% for file in file_list %}
+      <li class="list-group-item ">
+        <form class="d-flex justify-content-between" action="/delete/{{ file.content.name }}" method="post">
+          {% csrf_token %}
+          <a class="align-self-center overflow-auto m-2" href="{{ file.content.url }}">{{ file.content.name }}</a>
+          <button class="btn btn-warning ">delete</button>
+        </form>
+      </li>
+    {% endfor %}
+  </ul>
 </div>
 <script src="{% static "jquery.min.js" %}"></script>
 <script src="{% static "bootstrap.bundle.min.js" %}"></script>
